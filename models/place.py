@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 from models.base_model import BaseModel,\
-    Base, Column, String, Integer, ForeignKey
+    Base, Column, String, Integer, ForeignKey, Float
 
 
 class Place(BaseModel, Base):
@@ -16,6 +16,6 @@ class Place(BaseModel, Base):
     number_bathrooms = Column(Integer(), default=0, nullable=False)
     max_guest = Column(Integer(), default=0, nullable=False)
     price_by_night = Column(Integer(), default=0, nullable=False)
-    latitude = Column(Integer(), nullable=True)
-    longitude = Column(Integer(), nullable=True)
+    latitude = Column(Float(), nullable=True)
+    longitude = Column(Float(), nullable=True)
     # amenity_ids = []
