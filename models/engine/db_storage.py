@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """This module defines a class to manage database storage for hbnb clone"""
-import os
+from os import getenv
 from models.base_model import Base, BaseModel
 from models.user import User
 from models.place import Place
@@ -10,19 +10,20 @@ from models.amenity import Amenity
 from models.review import Review
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
-from dotenv import load_dotenv
-load_dotenv()
-user = os.getenv("HBNB_MYSQL_USER")
-passwd = os.getenv("HBNB_MYSQL_PWD")
-host = os.getenv("HBNB_MYSQL_HOST")
-db = os.getenv("HBNB_MYSQL_DB")
-HBNB_ENV = os.getenv("HBNB_ENV")
+
+user = getenv("HBNB_MYSQL_USER")
+passwd = getenv("HBNB_MYSQL_PWD")
+host = getenv("HBNB_MYSQL_HOST")
+db = getenv("HBNB_MYSQL_DB")
+HBNB_ENV = getenv("HBNB_ENV")
 
 classes = {
-        'BaseModel': BaseModel, 'User': User, 'Place': Place,
-        'State': State, 'City': City, 'Amenity': Amenity,
-        'Review': Review
-    }
+    'BaseModel': BaseModel, 'User': User, 'Place': Place,
+    'State': State, 'City': City, 'Amenity': Amenity,
+    'Review': Review
+}
+
+
 class DBStorage:
     """This class manages storage of hbnb models in mysql"""
 
@@ -30,7 +31,9 @@ class DBStorage:
     __session = None
 
     def __init__(self):
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(user, passwd, host, db), pool_pre_ping=True)
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
+                                      .format(user, passwd, host, db),
+                                      pool_pre_ping=True)
         if HBNB_ENV == 'test':
             Base.metadata.drop_all(self.__engine)
 
@@ -62,7 +65,8 @@ class DBStorage:
 
     def reload(self):
         Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        session_factory = sessionmaker(bind=self.__engine,
+                                       expire_on_commit=False)
         session = scoped_session(session_factory)
         self.__session = session()
 
