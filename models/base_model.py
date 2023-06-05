@@ -5,7 +5,7 @@ from os import getenv
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
-from sqlalchemy import Column, String, DateTime
+from sqlalchemy import Column, String, DateTime, Integer, ForeignKey
 
 Relationship = relationship
 Base = declarative_base()

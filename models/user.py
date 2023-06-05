@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """This module defines a class User"""
-from models.base_model import BaseModel, Column, String, Base
+from models.base_model import BaseModel, Column, String, Base, relationship
 
 
 class User(BaseModel, Base):
@@ -11,3 +11,4 @@ class User(BaseModel, Base):
     password = Column(String(128), nullable=False)
     first_name = Column(String(128), nullable=True)
     last_name = Column(String(128), nullable=True)
+    places = relationship('Place', cascade='all, delete', backref='user')
