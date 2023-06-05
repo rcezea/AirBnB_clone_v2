@@ -18,4 +18,4 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer(), default=0, nullable=False)
     latitude = Column(Integer(), nullable=True)
     longitude = Column(Integer(), nullable=True)
-    amenity_ids = []
+    # amenity_ids = []
