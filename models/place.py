@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 from models.base_model import BaseModel,\
-    Base, Column, String, Integer, ForeignKey, Float
+    Base, Column, String, Integer, ForeignKey, Float, relationship
+from os import getenv
+from models.review import Review
 
 
 class Place(BaseModel, Base):
@@ -19,3 +21,16 @@ class Place(BaseModel, Base):
     latitude = Column(Float(), nullable=True)
     longitude = Column(Float(), nullable=True)
     # amenity_ids = []
+
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
+        relationship('Review', cascade='all, delete', backref='place')
+    else:
+        @property
+        def reviews(self):
+            from models import storage
+            all_reviews = storage.all(Review)
+            review = []
+            for obj in all_reviews.values():
+                if obj.place_id == self.place.id:
+                    review.append(obj)
+            return review
